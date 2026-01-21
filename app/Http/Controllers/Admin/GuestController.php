@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Guest;
+use Illuminate\Http\Request;
+
+class GuestController extends Controller
+{
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'nullable|email',
+            'address' => 'nullable|string',
+            'id_card_number' => 'nullable|string',
+            'id_card_image' => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('id_card_image')) {
+            $validated['id_card_image'] = $request->file('id_card_image')->store('id_cards', 'public');
+        }
+
+        Guest::create($validated);
+
+        return redirect()->route('admin.guests')
+            ->with('success', 'ភ្ញៀវត្រូវបានបន្ថែមដោយជោគជ័យ!');
+    }
+
+    public function update(Request $request, Guest $guest)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'nullable|email',
+            'address' => 'nullable|string',
+            'id_card_number' => 'nullable|string',
+            'id_card_image' => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('id_card_image')) {
+            $validated['id_card_image'] = $request->file('id_card_image')->store('id_cards', 'public');
+        }
+
+        $guest->update($validated);
+
+        return redirect()->route('admin.guests')
+            ->with('success', 'ព័ត៌មានភ្ញៀវត្រូវបានកែប្រែដោយជោគជ័យ!');
+    }
+
+    public function destroy(Guest $guest)
+    {
+        if ($guest->bookings()->exists()) {
+            return redirect()->route('admin.guests')
+                ->with('error', 'មិនអាចលុបភ្ញៀវដែលមានការកក់បានទេ!');
+        }
+
+        $guest->delete();
+
+        return redirect()->route('admin.guests')
+            ->with('success', 'ភ្ញៀវត្រូវបានលុបដោយជោគជ័យ!');
+    }
+}
