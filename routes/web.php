@@ -32,7 +32,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
     Route::put('/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
     Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
-    Route::post('/rooms/{room}/status', [RoomController::class, 'updateStatus'])->name('rooms.status');
+    // Route::post('/rooms/{room}/status', [RoomController::class, 'updateStatus'])->name('rooms.status');
+    // Room Status & Actions
+    Route::get('/rooms/{room}/info', [RoomController::class, 'getRoomInfo'])->name('rooms.info');
+    Route::post('/rooms/{room}/status', [RoomController::class, 'updateStatus'])->name('rooms.update-status');
+    Route::post('/rooms/{room}/start', [RoomController::class, 'startStay'])->name('rooms.start');
+    Route::post('/rooms/{room}/cancel', [RoomController::class, 'cancelBooking'])->name('rooms.cancel');
+    Route::post('/rooms/{room}/checkout', [RoomController::class, 'checkout'])->name('rooms.checkout');
+    Route::post('/rooms/{room}/finish-cleaning', [RoomController::class, 'finishCleaning'])->name('rooms.finish-cleaning');
+    Route::post('/rooms/{room}/extend', [RoomController::class, 'extendStay'])->name('rooms.extend');
 
     // Guest Management
     Route::get('/guests/create', [GuestController::class, 'create'])->name('guests.create');

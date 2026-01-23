@@ -8,5 +8,6 @@ class VerifyCsrfToken extends Middleware
 {
     protected $except = [
         // Add API routes to exclude from CSRF if needed
+        'logout',
     ];
 }

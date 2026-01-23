@@ -24,7 +24,7 @@ class DashboardController extends Controller
             ->orderBy('check_in_date', 'desc')
             ->get();
 
-        // ADD THIS LINE - Get all rooms for the grid
+        // Get all rooms for the grid
         $rooms = Room::orderBy('floor')->orderBy('number')->get();
 
         return view('admin.dashboard', compact(
@@ -35,7 +35,7 @@ class DashboardController extends Controller
             'cleaningRooms',
             'maintenanceRooms',
             'currentGuests',
-            'rooms' // ADD THIS - pass rooms to view
+            'rooms'
         ));
     }
 

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gray-50">
-    <main class="md:pl-64">
+    <main class="md:pl-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8">
             <!-- Header -->
             <div class="flex justify-between items-center mb-8">
